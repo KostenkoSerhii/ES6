@@ -1,5 +1,4 @@
 import sayHello from './lib/sayHello.js';
-
 sayHello();
 
 //let staticlangs = ['C', 'C++', 'Java'];
@@ -50,28 +49,28 @@ sayHello();
 //}
 ////sum(5,6,7,8)
 //
-let firstName = "Bill",
-lastName = "Gates",
-email = "dsfsdf@dsfdsfs.dsfs";
-
-let person = {
-
-	firstName,
-	lastName,
-	email,
-	sayHello() {
-		console.log(`sdfds ${lastName}`);
-	},
-		get fullName(){
-		return this.firstName + " " + this.lastName
-	}
-};
+//let firstName = "Bill",
+//lastName = "Gates",
+//email = "dsfsdf@dsfdsfs.dsfs";
+//
+//let person = {
+//
+//	firstName,
+//	lastName,
+//	email,
+//	sayHello() {
+//		console.log(`sdfds ${lastName}`);
+//	},
+//		get fullName(){
+//		return this.firstName + " " + this.lastName
+//	}
+//};
 //Object.defineProperty(person, "fullName", {
 //	get: function(){
 //		return this.firstName + " " + this.lastName
 //	}
 //});
-console.log(person);
+//console.log(person);
 //person.sayHello()
 
 //function createCar(prop, value) {
@@ -81,3 +80,36 @@ console.log(person);
 //	}
 //}
 //console.log(createCar("vim", 1));
+
+
+// classes
+class Task{
+	constructor(title = Task.getDefaultTitle()){
+		this.title = title;
+		this._done = false;
+		Task.count += 1;
+		console.log("создание задачи");
+	}
+	get done(){
+		return this._done === true ? 'выполнена': 'не выполнена'
+	}
+	set done(value){
+		if(value !== undefined && typeof value === "boolean"){
+			this._done = value;
+		}else{
+			console.log('ошибка мы принимаем true/false');
+		}
+	}
+	complete(){
+		this.done = true;
+		console.log(`ЗАдача '${this.title}' выполнена`);
+	}
+	static getDefaultTitle(){
+		return "Задача"
+	}
+}
+Task.count = 0;
+let task  = new Task("Убрать комнату")
+console.log(task.done, task._done);
+task.complete();
+console.log(task.done, task._done);
