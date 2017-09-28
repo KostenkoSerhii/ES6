@@ -1,6 +1,8 @@
-import sayHello from './lib/sayHello.js';
-sayHello();
-
+// import sayHello from './lib/sayHello.js';
+// import Task from './class';
+// import myFunc from "./exportFunc";
+// import observer from "./observer";
+// observer()
 //let staticlangs = ['C', 'C++', 'Java'];
 //let dynamicLangs = ['JS', 'PHP', 'Ruby'];
 //
@@ -83,33 +85,120 @@ sayHello();
 
 
 // classes
-class Task{
-	constructor(title = Task.getDefaultTitle()){
-		this.title = title;
-		this._done = false;
-		Task.count += 1;
-		console.log("создание задачи");
+
+//Task.count = 0;
+//let task  = new Task("Убрать комнату")
+//console.log(task.done, task._done);
+//task.complete();
+//console.log(task.done, task._done);
+
+
+
+
+// class ObserverSubject{
+// 	constructor(){
+// 		this.observers = []
+// 	}
+// 	sendMessage(msg){
+// 		for(var i = 0; i < this.observers.length;  i++){
+// 			this.observers[i].notify(msg)
+// 		}
+// 	}
+// 	addObserver(observer){
+// 		this.observers.push(observer);
+// 	}
+// };
+
+// class Observer{
+// 	constructor(bihavior){
+// 		this.bihavior = bihavior
+// 	}
+// 	notify(msg){
+// 		this.bihavior(msg)
+// 	}
+// };
+
+// let observable = new ObserverSubject();
+// let obs1 = new Observer(function(msg){console.log(msg)});
+// let obs2 = new Observer(function(msg){alert(msg)});
+
+// observable.addObserver(obs1);
+// observable.addObserver(obs2);
+
+
+
+
+// setTimeout(function(){observable.sendMessage('время')}, 3000 )
+// function Observable(){
+// 	let observers = [];
+// 	this.sendMessage = function(msg){
+// 		for(var i = 0; i < observers.length;  i++){
+// 			observers[i].notify(msg)
+// 		}
+// 	};
+
+// 	this.addObserver = function(observer){
+// 		observers.push(observer);
+// 	};
+
+// };
+// function Observer (bihavior){
+// 	this.notify = function(msg){
+// 		bihavior(msg)
+// 	}
+// };
+
+class ObserverSubject{
+	constructor(){
+		this.observers = []
 	}
-	get done(){
-		return this._done === true ? 'выполнена': 'не выполнена'
-	}
-	set done(value){
-		if(value !== undefined && typeof value === "boolean"){
-			this._done = value;
-		}else{
-			console.log('ошибка мы принимаем true/false');
+	sendMessage(msg){
+		for(var i = 0; i < this.observers.length;  i++){
+			this.observers[i].notify(msg)
 		}
 	}
-	complete(){
-		this.done = true;
-		console.log(`ЗАдача '${this.title}' выполнена`);
+	addObserver(observer){
+		this.observers.push(observer);
 	}
-	static getDefaultTitle(){
-		return "Задача"
+};
+
+class Observer{
+	constructor(bihavior){
+		this.bihavior = bihavior
 	}
-}
-Task.count = 0;
-let task  = new Task("Убрать комнату")
-console.log(task.done, task._done);
-task.complete();
-console.log(task.done, task._done);
+	notify(msg){
+		this.bihavior(msg)
+	}
+};
+
+let observable = new ObserverSubject();
+
+let basketObs = new Observer(function(id){
+	$(".basket__products-list").append(
+		$("<li></li>")
+		.addClass("basket__product")
+		.text("Товар " + id)
+		)
+});
+let modalObs = new Observer(function(id){
+	let msg = `товар ${id} добавлен в корзину!`;
+	$(".buy__message").text(msg);
+	$(".buy").removeClass("buy--hide");
+	setTimeout(() => {
+		$(".buy").addClass("buy--hide");
+	}, 2000)
+});
+
+let serverObs = new Observer(function(id){
+console.log(`id ${id}`);
+});
+
+
+observable.addObserver(basketObs);
+observable.addObserver(modalObs);
+observable.addObserver(serverObs);
+
+$(".product").on("click", function(){
+	let id = $(this).attr("data-id");
+	observable.sendMessage(id)
+})

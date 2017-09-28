@@ -4,24 +4,24 @@ title: Index page
 {% extends "layouts/_layout.html" %}
 
 {% block content %}
-	
-	{# variable example #}
-	<h1>{{title}}</h1>
-
-	
-	{# partial example #}
-	{% include "partials/_header.html" %}
-
-	{# mixin example #}
-	{{mixins.icon('facebook')}}
-
-
-	{# data usage example #}
-		{% import "data/data.html" as tests %}
-		
-		{% for test in tests.list %}
-		<li>{{test.title}}</li>
-		{% endfor %}
-	{# end of example #}
-
+<!-- begin products -->
+<div class="products">
+	<button class="product" data-id="1">Товар 1</button>
+	<button class="product" data-id="2">Товар 2</button>
+	<button class="product" data-id="3">Товар 3</button>
+	<button class="product" data-id="4">Товар 4</button>
+</div>
+<!-- end products -->
+<!-- begin basket -->
+<div class="basket">
+	<p class="basket__title">Корзина</p>
+	<ul class="basket__products-list"></ul>
+</div>
+<!-- end basket -->
+<!-- begin buy -->
+<div class="buy buy--hide">
+	<p class="but__title">ПОздравляем!</p>
+	<p class="buy__message"></p>
+</div>
+<!-- end buy -->
 {% endblock %}
